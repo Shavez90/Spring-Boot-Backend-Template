@@ -2,7 +2,6 @@ package com.template.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -55,11 +54,11 @@ public class JwtService {
         log.debug("Building JWT token for user: {}", userDetails.getUsername());
         return Jwts
                 .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey())
                 .compact();
     }
 
@@ -79,11 +78,11 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
         try {
             return Jwts
-                    .parserBuilder()
-                    .setSigningKey(getSignInKey())
+                    .parser()
+                    .verifyWith(getSignInKey())
                     .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (Exception e) {
             log.error("Failed to extract JWT claims: {}", e.getMessage());
             throw e;
