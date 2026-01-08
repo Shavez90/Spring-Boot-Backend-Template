@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class UserService {
 
@@ -30,7 +29,6 @@ public class UserService {
         return mapToDTO(user);
     }
 
-    @Transactional(readOnly = true)
     public UserDTO getUserByEmail(String email) {
         log.info("Fetching user with email: {}", email);
         User user = userRepository.findByEmailAndActive(email)
@@ -38,7 +36,6 @@ public class UserService {
         return mapToDTO(user);
     }
 
-    @Transactional(readOnly = true)
     public Page<UserDTO> getAllUsers(Pageable pageable) {
         log.info("Fetching all users");
         Page<User> users = userRepository.findAllActive(pageable);

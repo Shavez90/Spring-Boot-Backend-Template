@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class ProductService {
 
@@ -55,7 +54,6 @@ public class ProductService {
         return mapToDTO(updatedProduct);
     }
 
-    @Transactional(readOnly = true)
     public ProductDTO getProductById(String id) {
         log.info("Fetching product with id: {}", id);
         Product product = productRepository.findByIdAndActive(id)
@@ -63,28 +61,24 @@ public class ProductService {
         return mapToDTO(product);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> getAllProducts(Pageable pageable) {
         log.info("Fetching all products");
         Page<Product> products = productRepository.findAllActive(pageable);
         return products.map(this::mapToDTO);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> searchProductsByName(String name, Pageable pageable) {
         log.info("Searching products by name: {}", name);
         Page<Product> products = productRepository.searchByName(name, pageable);
         return products.map(this::mapToDTO);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> getProductsByCategory(String category, Pageable pageable) {
         log.info("Fetching products by category: {}", category);
         Page<Product> products = productRepository.findByCategory(category, pageable);
         return products.map(this::mapToDTO);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> getInStockProducts(Pageable pageable) {
         log.info("Fetching in-stock products");
         Page<Product> products = productRepository.findInStock(pageable);
