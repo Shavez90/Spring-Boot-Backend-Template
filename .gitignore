@@ -1,0 +1,89 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+*.iws
+*.ipr
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+.m2repository/
+
+# Spring Boot
+.mvn/wrapper/
+MVNW
+MVNW.cmd
+spring-boot-devtools.properties
+
+# Logging
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Application
+*.pid
+*.jar
+!gradle/wrapper/*.jar
+
+# Maven wrapper
+mvn
+mvnw
+mvnw.cmd
+
+# Package Files
+*.rar
+*.7z
+
+# Intellij
+out/
+
+# VS Code
+.vscode/
+settings.json
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Docker
+.dockerignore
+
+# Temp files
+*.tmp
+*.temp
+*.bak

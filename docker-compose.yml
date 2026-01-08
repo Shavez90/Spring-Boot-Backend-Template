@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: spring_boot_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: spring_boot_db
+      MYSQL_USER: spring_user
+      MYSQL_PASSWORD: spring_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - spring_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  spring_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring_boot_app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/spring_boot_db?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: spring_user
+      SPRING_DATASOURCE_PASSWORD: spring_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      JWT_SECRET: your_jwt_secret_key_change_this_in_production_with_a_strong_key
+      JWT_EXPIRATION: 86400000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring_network
+
+volumes:
+  mysql_data:
+
+networks:
+  spring_network:
+    driver: bridge
