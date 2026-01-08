@@ -11,10 +11,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.example</groupId>
-    <artifactId>spring-boot-backend-template</artifactId>
+    <groupId>com.template</groupId>
+    <artifactId>backend</artifactId>
     <version>1.0.0</version>
-    <name>Spring Boot Backend Template</name>
+    <name>backend</name>
     <description>Spring Boot REST API Backend Template</description>
 
     <properties>
