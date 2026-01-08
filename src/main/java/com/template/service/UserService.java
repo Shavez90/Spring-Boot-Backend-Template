@@ -23,7 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO getUserById(Long id) {
+    public UserDTO getUserById(String id) {
         log.info("Fetching user with id: {}", id);
         User user = userRepository.findByIdAndActive(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
@@ -45,7 +45,7 @@ public class UserService {
         return users.map(this::mapToDTO);
     }
 
-    public UserDTO updateUser(Long id, UserDTO userDTO) {
+    public UserDTO updateUser(String id, UserDTO userDTO) {
         log.info("Updating user with id: {}", id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
@@ -61,7 +61,7 @@ public class UserService {
         return mapToDTO(updatedUser);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         log.info("Deleting user with id: {}", id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));

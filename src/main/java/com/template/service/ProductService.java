@@ -39,7 +39,7 @@ public class ProductService {
         return mapToDTO(savedProduct);
     }
 
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+    public ProductDTO updateProduct(String id, ProductDTO productDTO) {
         log.info("Updating product with id: {}", id);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
@@ -56,7 +56,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public ProductDTO getProductById(Long id) {
+    public ProductDTO getProductById(String id) {
         log.info("Fetching product with id: {}", id);
         Product product = productRepository.findByIdAndActive(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
@@ -91,7 +91,7 @@ public class ProductService {
         return products.map(this::mapToDTO);
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(String id) {
         log.info("Deleting product with id: {}", id);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
@@ -111,8 +111,6 @@ public class ProductService {
                 .sku(product.getSku())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
-                .createdBy(product.getCreatedBy())
-                .updatedBy(product.getUpdatedBy())
                 .isActive(product.getIsActive())
                 .build();
     }
