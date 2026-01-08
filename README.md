@@ -217,7 +217,7 @@ This example demonstrates creating a simple "Product" entity with CRUD operation
 
 #### 1. Create the JPA Entity
 
-**File**: `src/main/java/com/example/entity/Product.java`
+**File**: `src/main/java/com/template/entity/Product.java`
 
 ```java
 @Entity
@@ -259,7 +259,7 @@ public class Product {
 
 #### 2. Create the DTO (Data Transfer Object)
 
-**File**: `src/main/java/com/example/dto/ProductDTO.java`
+**File**: `src/main/java/com/template/dto/ProductDTO.java`
 
 ```java
 @Data
@@ -287,7 +287,7 @@ public class ProductDTO {
 
 #### 3. Create the Repository
 
-**File**: `src/main/java/com/example/repository/ProductRepository.java`
+**File**: `src/main/java/com/template/repository/ProductRepository.java`
 
 ```java
 @Repository
@@ -304,7 +304,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 #### 4. Create the Service
 
-**File**: `src/main/java/com/example/service/ProductService.java`
+**File**: `src/main/java/com/template/service/ProductService.java`
 
 ```java
 @Service
@@ -382,7 +382,7 @@ public class ProductService {
 
 #### 5. Create the REST Controller
 
-**File**: `src/main/java/com/example/controller/ProductController.java`
+**File**: `src/main/java/com/template/controller/ProductController.java`
 
 ```java
 @RestController
@@ -502,7 +502,7 @@ mvn clean test jacoco:report
 
 ### Example Unit Test
 
-**File**: `src/test/java/com/example/service/ProductServiceTest.java`
+**File**: `src/test/java/com/template/service/ProductServiceTest.java`
 
 ```java
 @ExtendWith(MockitoExtension.class)
@@ -573,7 +573,7 @@ class ProductServiceTest {
 Spring-Boot-Backend-Template/
 ├── src/
 │   ├── main/
-│   │   ├── java/com/example/
+│   │   ├── java/com/template/
 │   │   │   ├── config/              # Configuration classes
 │   │   │   ├── controller/          # REST Controllers
 │   │   │   ├── dto/                 # Data Transfer Objects
@@ -582,14 +582,14 @@ Spring-Boot-Backend-Template/
 │   │   │   ├── repository/          # JPA Repositories
 │   │   │   ├── security/            # Security configuration
 │   │   │   ├── service/             # Business Logic
-│   │   │   └── SpringBootBackendTemplateApplication.java
+│   │   │   └── Application.java
 │   │   └── resources/
-│   │       ├── application.yml      # Main configuration
-│   │       ├── application-dev.yml  # Development config
-│   │       ├── application-prod.yml # Production config
-│   │       └── db/migration/        # Flyway migrations
+│   │       ├── application.properties  # Main configuration
+│   │       ├── application-dev.yml     # Development config
+│   │       ├── application-prod.yml    # Production config
+│   │       └── db/migration/           # Flyway migrations
 │   └── test/
-│       └── java/com/example/        # Unit & Integration Tests
+│       └── java/com/template/       # Unit & Integration Tests
 ├── docker/
 │   └── Dockerfile                   # Multi-stage Docker build
 ├── docker-compose.yml               # Docker Compose setup
@@ -662,7 +662,7 @@ jwt:
 logging:
   level:
     root: INFO
-    com.example: DEBUG
+    com.template: DEBUG
 ```
 
 ## 📦 Dependencies
@@ -731,77 +731,52 @@ Key dependencies included:
 </dependency>
 ```
 
-## 🎓 Using This Template for New Projects
+## 🚀 Using This Template for Your Project
 
-### Step 1: Clone and Rename
+This template is designed for quick reuse. Follow these steps to customize it:
 
+### Step 1: Clone the Repository
 ```bash
-# Clone the template
-git clone https://github.com/Shavez90/Spring-Boot-Backend-Template.git my-new-project
-cd my-new-project
+git clone https://github.com/Shavez90/Spring-Boot-Backend-Template.git your-project-name
+cd your-project-name
+```
 
-# Remove the original git history
+### Step 2: Rename Package Structure
+Do a global find and replace in your IDE:
+- Find: `com.template`
+- Replace: `com.yourcompany.yourproject`
+
+### Step 3: Rename Main Application Class
+- Rename `Application.java` to `YourProjectApplication.java`
+- Update the class name inside the file
+
+### Step 4: Update pom.xml
+Update these values:
+```xml
+<groupId>com.yourcompany</groupId>
+<artifactId>your-project-name</artifactId>
+<name>Your Project Name</name>
+<description>Your project description</description>
+```
+
+### Step 5: Update Application Properties
+Update `src/main/resources/application.properties` or `application.yml`:
+- Database connection settings
+- JWT secret key
+- Application name
+
+### Step 6: Initialize New Git Repository (Optional)
+```bash
 rm -rf .git
 git init
+git add .
+git commit -m "Initial commit from template"
 ```
 
-### Step 2: Update Project Information
-
-Update the following files:
-
-**pom.xml**:
-```xml
-<groupId>com.example</groupId>
-<artifactId>my-new-project</artifactId>
-<version>1.0.0</version>
-<name>My New Project</name>
-<description>My custom project based on Spring Boot template</description>
-```
-
-**src/main/resources/application.yml**:
-```yaml
-spring:
-  application:
-    name: my-new-project
-```
-
-### Step 3: Rename Package
-
-Rename the base package from `com.example` to your desired package name:
-
+### Step 7: Start Coding! 🎉
 ```bash
-# Using IDE (IntelliJ IDEA)
-# Right-click on package → Refactor → Rename Package
-
-# Or manually:
-mkdir -p src/main/java/com/mycompany/mynewproject
-mv src/main/java/com/example/* src/main/java/com/mycompany/mynewproject/
-rmdir src/main/java/com/example
-```
-
-### Step 4: Update References
-
-Search and replace all occurrences of:
-- `com.example` → your new package name
-- `spring-boot-api` → your new project name
-- `SpringBootBackendTemplateApplication` → your new main class name
-
-### Step 5: Customize Configuration
-
-Update database configuration and other settings in:
-- `application.yml`
-- `docker-compose.yml`
-- `Dockerfile`
-
-### Step 6: Create Your First Feature
-
-```bash
-# Create feature branch
-git checkout -b feature/user-management
-
-# Create entity, DTO, repository, service, and controller
-# Push changes and create a pull request
-git push origin feature/user-management
+mvn clean install
+mvn spring-boot:run
 ```
 
 ## 🔄 CI/CD Pipeline
@@ -892,7 +867,7 @@ The template uses SLF4J with Logback for comprehensive logging:
 logging:
   level:
     root: INFO
-    com.example: DEBUG
+    com.template: DEBUG
     org.springframework.security: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
