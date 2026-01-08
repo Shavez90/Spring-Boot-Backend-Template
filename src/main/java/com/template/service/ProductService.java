@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class ProductService {
 
@@ -39,7 +38,7 @@ public class ProductService {
         return mapToDTO(savedProduct);
     }
 
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+    public ProductDTO updateProduct(String id, ProductDTO productDTO) {
         log.info("Updating product with id: {}", id);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
@@ -55,43 +54,38 @@ public class ProductService {
         return mapToDTO(updatedProduct);
     }
 
-    @Transactional(readOnly = true)
-    public ProductDTO getProductById(Long id) {
+    public ProductDTO getProductById(String id) {
         log.info("Fetching product with id: {}", id);
         Product product = productRepository.findByIdAndActive(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         return mapToDTO(product);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> getAllProducts(Pageable pageable) {
         log.info("Fetching all products");
         Page<Product> products = productRepository.findAllActive(pageable);
         return products.map(this::mapToDTO);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> searchProductsByName(String name, Pageable pageable) {
         log.info("Searching products by name: {}", name);
         Page<Product> products = productRepository.searchByName(name, pageable);
         return products.map(this::mapToDTO);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> getProductsByCategory(String category, Pageable pageable) {
         log.info("Fetching products by category: {}", category);
         Page<Product> products = productRepository.findByCategory(category, pageable);
         return products.map(this::mapToDTO);
     }
 
-    @Transactional(readOnly = true)
     public Page<ProductDTO> getInStockProducts(Pageable pageable) {
         log.info("Fetching in-stock products");
         Page<Product> products = productRepository.findInStock(pageable);
         return products.map(this::mapToDTO);
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(String id) {
         log.info("Deleting product with id: {}", id);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
@@ -111,8 +105,6 @@ public class ProductService {
                 .sku(product.getSku())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
-                .createdBy(product.getCreatedBy())
-                .updatedBy(product.getUpdatedBy())
                 .isActive(product.getIsActive())
                 .build();
     }
